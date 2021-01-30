@@ -1,0 +1,6 @@
+<button (click)="changeIsAddingVertecies()">change mode</button>
+<div id="container" (click)="onMouseClick($event)">
+    <div *ngFor="let vertex of getVertices()" class="vertex" cdkDragBoundary="#container" [cdkDragFreeDragPosition]="{x: vertex.x, y: vertex.y}" cdkDrag>
+        {{vertex.number}}
+    </div>
+</div>
