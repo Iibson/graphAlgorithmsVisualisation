@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { Edge } from '../data/edge'
 
 @Injectable({
   providedIn: 'root'
