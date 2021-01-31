@@ -1,6 +1,28 @@
-<button (click)="changeIsAddingVertecies()">change mode</button>
-<div id="container" (click)="onMouseClick($event)">
-    <div *ngFor="let vertex of getVertices()" class="vertex" cdkDragBoundary="#container" [cdkDragFreeDragPosition]="{x: vertex.x, y: vertex.y}" cdkDrag>
-        {{vertex.number}}
-    </div>
-</div>
+<ngx-graph class="chart-container" [view]="[1400, 1000]" [showMiniMap]="false" [links]="edges" [nodes]="nodes">
+
+    <ng-template #defsTemplate>
+        <svg:marker id="arrow" viewBox="0 -5 10 10" refX="8" refY="0" markerWidth="4" markerHeight="4" orient="auto">
+            <svg:path d="M0,-5L10,0L0,5" class="arrow-head" />
+        </svg:marker>
+    </ng-template>
+
+    <ng-template #nodeTemplate let-node>
+        <svg:g class=" node " (click)="chooseNode(node)">
+            <svg:rect [attr.width]="node.dimension.width " [attr.height]="node.dimension.height " [attr.fill]="node.data.customColor " [attr.stroke]="node.data.stroke " [attr.stroke-width]="node.data.stroke_width " />
+            <svg:text alignment-baseline="central " [attr.x]="10 " [attr.y]="node.dimension.height / 2 ">
+                {{node.id}}
+            </svg:text>
+        </svg:g>
+    </ng-template>
+
+    <ng-template #linkTemplate let-link>
+        <svg:g class=" edge ">
+            <svg:path class="line " stroke-width="4" marker-end="url(#arrow)" stroke="black"></svg:path>
+            <svg:text class="edge-label " text-anchor="middle ">
+                <textPath class="text-path " [attr.href]=" '#' + link.id " [style.dominant-baseline]="link.dominantBaseline " startOffset="50% ">
+                </textPath>
+            </svg:text>
+        </svg:g>
+    </ng-template>
+
+</ngx-graph>

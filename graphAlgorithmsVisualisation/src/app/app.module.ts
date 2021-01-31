@@ -1,20 +1,26 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-import { AppRoutingModule } from './app-routing.module';
+import { AppRoutingModule, routingComponents } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { DragDropModule } from '@angular/cdk/drag-drop';
-import { CanvasComponent } from './canvas/canvas.component';
+import { NgxGraphModule } from '@swimlane/ngx-graph';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ReactiveFormsModule } from '@angular/forms';
+import { GraphFormComponent } from './graph-form/graph-form.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    CanvasComponent
+    routingComponents,
+    GraphFormComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    DragDropModule
+    NgxGraphModule,
+    BrowserAnimationsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
