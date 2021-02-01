@@ -3,10 +3,47 @@ text {
     cursor: pointer;
 }
 
-div.container {
-    pointer-events: none;
-}
-
 ngx-graph {
     pointer-events: all;
+}
+
+.innerContainer {
+    margin-right: auto;
+    margin-left: auto;
+    height: 700px;
+}
+
+.outerContainer {
+    border: 3px solid #343a40;
+    margin-top: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    height: 706px;
+}
+
+@media (min-width: 768px) {
+    .innerContainer {
+        width: 750px;
+    }
+    .outerContainer {
+        width: 756px;
+    }
+}
+
+@media (min-width: 992px) {
+    .innerContainer {
+        width: 970px;
+    }
+    .outerContainer {
+        width: 976px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .innerContainer {
+        width: 1170px;
+    }
+    .outerContainer {
+        width: 1176px;
+    }
 }

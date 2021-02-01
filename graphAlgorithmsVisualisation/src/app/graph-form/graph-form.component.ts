@@ -12,8 +12,7 @@ export class GraphFormComponent implements OnInit {
 
   properties = {
     defaultColor: '#ffffff',
-    choosenColor: 'red',
-    stroke: '#000000',
+    stroke: '#343a40',
     node_stroke_width: 2
   }
   lastAdded: number = 0

@@ -13,19 +13,19 @@ export class CanvasComponent {
   edges: Edge[] = []
   nodes: Node[] = []
   algo: Algorithms = new Algorithms()
+  choosenElement: Node = null
   properties = {
     defaultColor: '#ffffff',
     choosenColor: 'red',
-    stroke: '#000000',
+    stroke: '#343a40',
     node_stroke_width: 2
   }
-  choosenElement: Node = null
 
   constructor(private graphFormService: GraphFormService, private currentAlgorithmService: CurrentAlgorithmService) {
     this.currentAlgorithmService.currentAlgorithm.subscribe(res => this.runAlgorithm(res))
-    this.currentAlgorithmService.currentAlgorithmTime.subscribe(res => this.algo.setTime(1010 - res * 10))
+    this.currentAlgorithmService.currentAlgorithmTime.subscribe(res => this.algo.setTime(res))
     this.graphFormService.vertexAdded.subscribe(res => this.addNode(res))
-    this.algo.setTime(510)
+    this.algo.setTime(500)
     this.nodes = []
     this.edges = []
   }

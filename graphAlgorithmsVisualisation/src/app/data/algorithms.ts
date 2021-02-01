@@ -2,16 +2,16 @@ import { Edge, Node } from "@swimlane/ngx-graph";
 import { Queue } from "queue-typescript";
 
 export class Algorithms {
-    time: number;
-    properties = {
-        visitedColor : "#80ff80",
-        visitingColor : "#008000",
+    private time: number;
+    private properties = {
+        visitedColor: "#80ff80",
+        visitingColor: "#008000",
         toVisitColor: "yellow",
         defaultColor: '#ffffff'
     }
 
     async BFS(nodes: Node[], edges: Edge[], startingNode: Node) {
-        startingNode = (startingNode == null)? nodes[0] : startingNode
+        startingNode = (startingNode == null) ? nodes[0] : startingNode
         let queue = new Queue<Node>()
         nodes.forEach(node => {
             node.data.visited = false
@@ -40,7 +40,7 @@ export class Algorithms {
     }
 
     async DFS(nodes: Node[], edges: Edge[], startingNode: Node) {
-        startingNode = (startingNode == null)? nodes[0] : startingNode
+        startingNode = (startingNode == null) ? nodes[0] : startingNode
         nodes.forEach(node => {
             node.data.visited = false
             node.data.parent = null
