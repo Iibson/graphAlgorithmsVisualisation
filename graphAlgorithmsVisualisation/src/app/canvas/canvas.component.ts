@@ -20,11 +20,14 @@ export class CanvasComponent {
     node_stroke_width: 2
   }
   choosenElement: Node = null
-  lastAdded: number = 0
 
   constructor(private graphFormService: GraphFormService, private currentAlgorithmService: CurrentAlgorithmService) {
     this.currentAlgorithmService.currentAlgorithm.subscribe(res => this.runAlgorithm(res))
     this.currentAlgorithmService.currentAlgorithmTime.subscribe(res => this.algo.setTime(1010 - res * 10))
+    this.graphFormService.vertexAdded.subscribe(res => this.addNode(res))
+    this.algo.setTime(510)
+    this.nodes = []
+    this.edges = []
   }
 
   @HostListener('document:keypress', ['$event'])
@@ -36,19 +39,9 @@ export class CanvasComponent {
       }
   }
 
-  addNode() {
-    this.nodes.push({
-      id: String(this.lastAdded),
-      label: '',
-      data: {
-        customColor: this.properties.defaultColor,
-        stroke: this.properties.stroke,
-        stroke_width: this.properties.node_stroke_width
-      }
-    } as Node)
+  addNode(node: Node) {
+    this.nodes.push(node)
     this.nodes = [...this.nodes]
-    this.graphFormService.changeVertexAdded(false)
-    this.lastAdded++
   }
 
   deleteNode(node: Node) {
