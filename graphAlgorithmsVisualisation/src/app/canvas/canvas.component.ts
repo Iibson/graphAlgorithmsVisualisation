@@ -1,7 +1,8 @@
 import { Component, HostListener } from '@angular/core';
 import { Node, Edge } from '@swimlane/ngx-graph';
 import { GraphFormService } from '../service/graph-form/graph-form.service';
-import { Algorithms } from '../data/algorithms'
+import { Algorithms, RunningAlgorithm } from '../data/algorithms'
+import { CurrentAlgorithmService } from '../service/current-algorithm/current-algorithm.service';
 @Component({
   selector: 'app-canvas',
   templateUrl: './canvas.component.html',
@@ -21,20 +22,18 @@ export class CanvasComponent {
   choosenElement: Node = null
   lastAdded: number = 0
 
-  constructor(private graphFormService: GraphFormService) {
+  constructor(private graphFormService: GraphFormService, private currentAlgorithmService: CurrentAlgorithmService) {
     this.graphFormService.vertexAdded.subscribe(res => this.addNode(res))
+    this.currentAlgorithmService.currentAlgorithm.subscribe(res => this.runAlgorithm(res))
   }
 
   @HostListener('document:keypress', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
-    if (event.key === 'd') {
+    if (event.key === 'd') 
       if (this.choosenElement != null) {
-        this.nodes = this.nodes.filter(res => res != this.choosenElement)
-        this.edges = this.edges.filter(res => res.source != this.choosenElement.id && res.target != this.choosenElement.id)
+        this.deleteNode(this.choosenElement)
         this.choosenElement = null
-        console.log(this.nodes, this.edges)
       }
-    }
   }
 
   addNode(adding: boolean) {
@@ -52,6 +51,11 @@ export class CanvasComponent {
     this.nodes = [...this.nodes]
     this.graphFormService.changeVertexAdded(false)
     this.lastAdded++
+  }
+
+  deleteNode(node: Node) {
+    this.nodes = this.nodes.filter(res => res != node)
+    this.edges = this.edges.filter(res => res.source != node.id && res.target != node.id)
   }
 
   addEdge(source: string, target: string) {
@@ -82,17 +86,19 @@ export class CanvasComponent {
     }
   }
 
-  runBFS() {
+  runAlgorithm (algorithm: RunningAlgorithm) {
     if (this.choosenElement == null)
       return
-    this.algo.BFS(this.nodes, this.edges, this.choosenElement)
-    this.choosenElement = null
-  }
-
-  runDFS() {
-    if (this.choosenElement == null)
-      return
-    this.algo.DFS(this.nodes, this.edges, this.choosenElement)
+    switch (algorithm) {
+      case RunningAlgorithm.BFS: {
+        this.algo.BFS(this.nodes, this.edges, this.choosenElement)
+        break
+      }
+      case RunningAlgorithm.DFS: {
+        this.algo.DFS(this.nodes, this.edges, this.choosenElement)
+        break
+      }
+    }
     this.choosenElement = null
   }
 

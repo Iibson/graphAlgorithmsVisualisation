@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { RunningAlgorithm } from '../data/algorithms';
+import { CurrentAlgorithmService } from '../service/current-algorithm/current-algorithm.service';
 import { GraphFormService } from '../service/graph-form/graph-form.service';
 
 @Component({
@@ -8,12 +10,16 @@ import { GraphFormService } from '../service/graph-form/graph-form.service';
 })
 export class GraphFormComponent implements OnInit {
 
-  constructor(private graphFormService: GraphFormService) { }
+  constructor(private graphFormService: GraphFormService, private currentAlgorithmService: CurrentAlgorithmService) { }
 
   ngOnInit(): void {
   }
 
   addNode() {
     this.graphFormService.changeVertexAdded(true)
+  }
+
+  changeRunningAlgorith(algorithm: RunningAlgorithm) {
+    this.currentAlgorithmService.changeCurrentAlgorithm(algorithm)
   }
 }
