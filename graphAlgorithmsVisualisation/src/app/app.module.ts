@@ -6,14 +6,12 @@ import { AppComponent } from './app.component';
 import { NgxGraphModule } from '@swimlane/ngx-graph';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
-import { GraphFormComponent } from './graph-form/graph-form.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    routingComponents,
-    GraphFormComponent
+    routingComponents
   ],
   imports: [
     BrowserModule,

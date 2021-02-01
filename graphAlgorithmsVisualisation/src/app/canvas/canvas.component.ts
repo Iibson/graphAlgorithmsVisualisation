@@ -29,7 +29,7 @@ export class CanvasComponent {
 
   @HostListener('document:keypress', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
-    if (event.key === 'd') 
+    if (event.key === 'd')
       if (this.choosenElement != null) {
         this.deleteNode(this.choosenElement)
         this.choosenElement = null
@@ -86,9 +86,15 @@ export class CanvasComponent {
     }
   }
 
-  runAlgorithm (algorithm: RunningAlgorithm) {
-    if (this.choosenElement == null)
-      return
+  resetColors() {
+    this.nodes.forEach(node => node.data.customColor = this.properties.defaultColor)
+  }
+
+  setTime(time: number) {
+    this.algo.setTime(1010 - time * 10)
+  }
+
+  runAlgorithm(algorithm: RunningAlgorithm) {
     switch (algorithm) {
       case RunningAlgorithm.BFS: {
         this.algo.BFS(this.nodes, this.edges, this.choosenElement)
@@ -98,16 +104,10 @@ export class CanvasComponent {
         this.algo.DFS(this.nodes, this.edges, this.choosenElement)
         break
       }
+      default: {
+        this.resetColors()
+      }
     }
     this.choosenElement = null
   }
-
-  resetColors() {
-    this.nodes.forEach(node => node.data.customColor = this.properties.defaultColor)
-  }
-
-  setTime(time: number) {
-    this.algo.setTime(1010 - time * 10)
-  }
-
 }

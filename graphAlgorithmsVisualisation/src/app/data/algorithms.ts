@@ -6,6 +6,7 @@ export class Algorithms {
     properties: any;
 
     async BFS(nodes: Node[], edges: Edge[], startingNode: Node) {
+        startingNode = (startingNode == null)? nodes[0] : startingNode
         let queue = new Queue<Node>()
         nodes.forEach(node => {
             node.data.visited = false
@@ -18,12 +19,12 @@ export class Algorithms {
         while (queue.length > 0) {
             let node = queue.dequeue()
             node.data.customColor = this.properties.visitingColor
-            await this.delay(this.time)
             for (let i = 0; i < edges.length; i++) {
                 let targetNode = nodes.find(node => node.id == edges[i].target)
                 if (edges[i].source == node.id && targetNode.data.visited == false) {
                     targetNode.data.visited = true
                     targetNode.data.parent = edges[i].source
+                    await this.delay(this.time)
                     targetNode.data.customColor = this.properties.toVisitColor
                     queue.enqueue(targetNode)
                 }
@@ -34,6 +35,7 @@ export class Algorithms {
     }
 
     async DFS(nodes: Node[], edges: Edge[], startingNode: Node) {
+        startingNode = (startingNode == null)? nodes[0] : startingNode
         nodes.forEach(node => {
             node.data.visited = false
             node.data.parent = null
@@ -64,7 +66,6 @@ export class Algorithms {
         time++
         node.data.processed = time
         node.data.customColor = this.properties.visitedColor
-        await this.delay(this.time)
     }
 
     private delay(ms: number) {
