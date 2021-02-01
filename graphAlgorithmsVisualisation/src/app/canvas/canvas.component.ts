@@ -1,6 +1,6 @@
 import { Component, HostListener } from '@angular/core';
 import { Node, Edge } from '@swimlane/ngx-graph';
-import { GraphFormService } from '../service/graph-form.service';
+import { GraphFormService } from '../service/graph-form/graph-form.service';
 import { Algorithms } from '../data/algorithms'
 @Component({
   selector: 'app-canvas',
@@ -11,7 +11,7 @@ export class CanvasComponent {
 
   edges: Edge[] = []
   nodes: Node[] = []
-  algo: Algorithms = new Algorithms()
+  algo: Algorithms = new Algorithms(510)
   properties = {
     defaultColor: '#ffffff',
     choosenColor: 'red',
@@ -83,21 +83,25 @@ export class CanvasComponent {
   }
 
   runBFS() {
-    if(this.choosenElement == null)
+    if (this.choosenElement == null)
       return
     this.algo.BFS(this.nodes, this.edges, this.choosenElement)
     this.choosenElement = null
   }
 
   runDFS() {
-    if(this.choosenElement == null)
-    return
-  this.algo.DFS(this.nodes, this.edges)
-  this.choosenElement = null
+    if (this.choosenElement == null)
+      return
+    this.algo.DFS(this.nodes, this.edges, this.choosenElement)
+    this.choosenElement = null
   }
 
   resetColors() {
     this.nodes.forEach(node => node.data.customColor = this.properties.defaultColor)
+  }
+
+  setTime(time: number) {
+    this.algo.setTime(1010 - time * 10)
   }
 
 }

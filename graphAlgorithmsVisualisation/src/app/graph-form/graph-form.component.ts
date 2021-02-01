@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { GraphFormService } from '../service/graph-form.service';
+import { GraphFormService } from '../service/graph-form/graph-form.service';
 
 @Component({
   selector: 'app-graph-form',
