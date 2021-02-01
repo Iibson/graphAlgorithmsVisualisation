@@ -89,6 +89,13 @@ export class CanvasComponent {
     this.choosenElement = null
   }
 
+  runDFS() {
+    if(this.choosenElement == null)
+    return
+  this.algo.DFS(this.nodes, this.edges)
+  this.choosenElement = null
+  }
+
   resetColors() {
     this.nodes.forEach(node => node.data.customColor = this.properties.defaultColor)
   }
