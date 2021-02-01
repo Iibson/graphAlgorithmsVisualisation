@@ -14,11 +14,11 @@ export class GraphFormComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  addNode() {
-    this.graphFormService.changeVertexAdded(true)
-  }
-
   changeRunningAlgorith(algorithm: RunningAlgorithm) {
     this.currentAlgorithmService.changeCurrentAlgorithm(algorithm)
+  }
+
+  setTime(time: number){
+    this.currentAlgorithmService.changeCurrentAlgorithmTime(time)
   }
 }

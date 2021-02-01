@@ -3,7 +3,12 @@ import { Queue } from "queue-typescript";
 
 export class Algorithms {
     time: number;
-    properties: any;
+    properties = {
+        visitedColor : "#80ff80",
+        visitingColor : "#008000",
+        toVisitColor: "yellow",
+        defaultColor: '#ffffff'
+    }
 
     async BFS(nodes: Node[], edges: Edge[], startingNode: Node) {
         startingNode = (startingNode == null)? nodes[0] : startingNode
@@ -60,6 +65,7 @@ export class Algorithms {
                 let targetNode = nodes.find(res => res.id == edges[i].target)
                 if (!targetNode.data.visited) {
                     await this.visitDFS(targetNode, nodes, edges, time)
+                    await this.delay(this.time)
                 }
             }
         }
@@ -74,15 +80,5 @@ export class Algorithms {
 
     setTime(time: number) {
         this.time = time
-    }
-
-    constructor(time: number) {
-        this.time = time
-        this.properties = {
-            visitedColor : "#80ff80",
-            visitingColor : "#008000",
-            toVisitColor: "yellow",
-            defaultColor: '#ffffff'
-        }
     }
 }

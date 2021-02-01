@@ -1,4 +1,4 @@
-<button (click)="addNode()">addVertex</button>
+<input type="range" max="100" #ref (change)="setTime(ref.value)" />
 <!--RESET-->
 <button (click)="changeRunningAlgorith(null)">Reset Colors</button>
 <!--BFS-->

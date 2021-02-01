@@ -12,7 +12,7 @@ export class CanvasComponent {
 
   edges: Edge[] = []
   nodes: Node[] = []
-  algo: Algorithms = new Algorithms(510)
+  algo: Algorithms = new Algorithms()
   properties = {
     defaultColor: '#ffffff',
     choosenColor: 'red',
@@ -23,8 +23,8 @@ export class CanvasComponent {
   lastAdded: number = 0
 
   constructor(private graphFormService: GraphFormService, private currentAlgorithmService: CurrentAlgorithmService) {
-    this.graphFormService.vertexAdded.subscribe(res => this.addNode(res))
     this.currentAlgorithmService.currentAlgorithm.subscribe(res => this.runAlgorithm(res))
+    this.currentAlgorithmService.currentAlgorithmTime.subscribe(res => this.algo.setTime(1010 - res * 10))
   }
 
   @HostListener('document:keypress', ['$event'])
@@ -36,9 +36,7 @@ export class CanvasComponent {
       }
   }
 
-  addNode(adding: boolean) {
-    if (!adding)
-      return
+  addNode() {
     this.nodes.push({
       id: String(this.lastAdded),
       label: '',
@@ -88,10 +86,6 @@ export class CanvasComponent {
 
   resetColors() {
     this.nodes.forEach(node => node.data.customColor = this.properties.defaultColor)
-  }
-
-  setTime(time: number) {
-    this.algo.setTime(1010 - time * 10)
   }
 
   runAlgorithm(algorithm: RunningAlgorithm) {
