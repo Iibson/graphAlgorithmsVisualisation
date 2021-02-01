@@ -1,8 +1,8 @@
 import { Component, HostListener } from '@angular/core';
 import { Node, Edge } from '@swimlane/ngx-graph';
 import { GraphFormService } from '../service/graph-form/graph-form.service';
-import { Algorithms, RunningAlgorithm } from '../data/algorithms'
-import { CurrentAlgorithmService } from '../service/current-algorithm/current-algorithm.service';
+import { Algorithms } from '../data/algorithms'
+import { CurrentAlgorithmService, RunningAlgorithm } from '../service/current-algorithm/current-algorithm.service';
 @Component({
   selector: 'app-canvas',
   templateUrl: './canvas.component.html',

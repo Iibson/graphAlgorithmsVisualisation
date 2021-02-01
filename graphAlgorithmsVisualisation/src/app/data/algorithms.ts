@@ -85,8 +85,3 @@ export class Algorithms {
         }
     }
 }
-
-export enum RunningAlgorithm {
-    BFS,
-    DFS
-}

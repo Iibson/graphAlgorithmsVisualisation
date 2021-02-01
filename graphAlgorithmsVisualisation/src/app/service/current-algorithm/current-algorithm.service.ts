@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { RunningAlgorithm } from 'src/app/data/algorithms';
+
+export enum RunningAlgorithm {
+  BFS,
+  DFS
+}
 
 @Injectable({
   providedIn: 'root'

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RunningAlgorithm } from '../data/algorithms';
-import { CurrentAlgorithmService } from '../service/current-algorithm/current-algorithm.service';
+import { CurrentAlgorithmService, RunningAlgorithm } from '../service/current-algorithm/current-algorithm.service';
 import { GraphFormService } from '../service/graph-form/graph-form.service';
 
 @Component({
