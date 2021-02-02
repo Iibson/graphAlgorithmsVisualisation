@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CurrentAlgorithmService, RunningAlgorithm } from '../service/current-algorithm/current-algorithm.service';
 import { GraphFormService } from '../service/graph-form/graph-form.service';
 import { Node } from '@swimlane/ngx-graph';
+import { PregeneratedGraph } from '../data/graph'
 
 @Component({
   selector: 'app-graph-form',
@@ -41,5 +42,10 @@ export class GraphFormComponent implements OnInit {
       }
     } as Node)
     this.lastAdded++
+  }
+
+  generateGraph(graph: PregeneratedGraph) {
+    this.lastAdded += PregeneratedGraph.numberOfNodes(graph)
+    this.graphFormService.changePregeneratedGraph(graph)
   }
 }

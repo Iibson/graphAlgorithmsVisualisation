@@ -3,6 +3,8 @@ import { Node, Edge } from '@swimlane/ngx-graph';
 import { GraphFormService } from '../service/graph-form/graph-form.service';
 import { Algorithms } from '../data/algorithms'
 import { CurrentAlgorithmService, RunningAlgorithm } from '../service/current-algorithm/current-algorithm.service';
+import * as pregeneratedGraph from '../data/graph';
+
 @Component({
   selector: 'app-canvas',
   templateUrl: './canvas.component.html',
@@ -25,6 +27,7 @@ export class CanvasComponent {
     this.currentAlgorithmService.currentAlgorithm.subscribe(res => this.runAlgorithm(res))
     this.currentAlgorithmService.currentAlgorithmTime.subscribe(res => this.algo.setTime(res))
     this.graphFormService.vertexAdded.subscribe(res => this.addNode(res))
+    this.graphFormService.pregeneratedGraph.subscribe(res => this.generateGraph(res))
     this.algo.setTime(500)
     this.nodes = []
     this.edges = []
@@ -81,6 +84,18 @@ export class CanvasComponent {
     this.nodes.forEach(node => node.data.customColor = this.properties.defaultColor)
   }
 
+  generateGraph(graph: pregeneratedGraph.PregeneratedGraph) {
+    let temp: pregeneratedGraph.Graph = pregeneratedGraph.PregeneratedGraph.generateGraph(graph)
+    this.nodes = temp.nodes
+    this.edges = temp.edges
+    this.nodes.forEach(node =>
+      node.data = {
+        customColor: this.properties.defaultColor,
+        stroke: this.properties.stroke,
+        stroke_width: this.properties.node_stroke_width
+      })
+  }
+
   runAlgorithm(algorithm: RunningAlgorithm) {
     switch (algorithm) {
       case RunningAlgorithm.BFS: {
@@ -93,6 +108,8 @@ export class CanvasComponent {
       }
       default: {
         this.resetColors()
+        this.nodes = this.nodes
+        this.edges = this.edges
       }
     }
     this.choosenElement = null

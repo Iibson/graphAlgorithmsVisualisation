@@ -15,30 +15,54 @@
             <li class="nav-item">
                 <a class="nav-link" role="button" (click)="addNode()">Add Node</a>
             </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Run Algorithms
-          </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" (click)="changeRunningAlgorith(0)">BFS</a>
-                    <a class="dropdown-item" (click)="changeRunningAlgorith(1)">DFS </a>
-                </div>
+            <li class="nav-item">
+                <a class="nav-link" (click)="changeRunningAlgorith(null)" role="button">Reset Colors</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" (click)="generateGraph(null)" role="button">Delete Graph</a>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Algorithm Speed
           </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" (click)="setTime(3000)">very slow</a>
-                    <a class="dropdown-item" (click)="setTime(2000)">slow </a>
-                    <a class="dropdown-item" (click)="setTime(1000)">medium </a>
-                    <a class="dropdown-item" (click)="setTime(500)">fast </a>
-                    <a class="dropdown-item" (click)="setTime(300)">very fast </a>
-                    <a class="dropdown-item" (click)="setTime(0)">instant </a>
+                    <a class="dropdown-item" role="button" (click)="setTime(3000)">very slow</a>
+                    <a class="dropdown-item" role="button" (click)="setTime(2000)">slow </a>
+                    <a class="dropdown-item" role="button" (click)="setTime(1000)">medium </a>
+                    <a class="dropdown-item" role="button" (click)="setTime(500)">fast </a>
+                    <a class="dropdown-item" role="button" (click)="setTime(300)">very fast </a>
+                    <a class="dropdown-item" role="button" (click)="setTime(0)">instant </a>
                 </div>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" (click)="changeRunningAlgorith(null)" role="button">Reset Colors</a>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Pregenerated Graphs
+          </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" role="button" (click)="generateGraph(0)">Dag </a>
+                    <a class="dropdown-item" role="button" (click)="generateGraph(1)">Petersen Graph // TODO </a>
+                    <a class="dropdown-item" role="button" (click)="generateGraph(2)">Strongly connected component //TODO </a>
+                </div>
+            </li>
+            <!-- <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Run Algorithms
+          </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" (click)="changeRunningAlgorith(0)">BFS</a>
+                        <a class="dropdown-item" (click)="changeRunningAlgorith(1)">DFS </a>
+                    </div>
+                </li> -->
+            <li>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Run Algorithms
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" role="button" (click)="changeRunningAlgorith(0)">BFS</a>
+                        <a class="dropdown-item" role="button" (click)="changeRunningAlgorith(1)">DFS </a>
+                    </div>
+                </div>
             </li>
             <!-- <li class="nav-item">
                 <a class="nav-link disabled" href="#">Disabled</a>
@@ -49,16 +73,3 @@
         </form> -->
     </div>
 </nav>
-
-
-<!-- <input type="range" max="100" #ref (change)="setTime(ref.value)" /> -->
-<!-- <div class="dropdown">
-    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      Dropdown button
-    </button>
-    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <a class="dropdown-item" href="#" (click)="changeRunningAlgorith(0)">Run BFS</a>
-        <a class="dropdown-item" href="#" (click)="changeRunningAlgorith(1)">Run DFS </a>
-    </div>
-</div> -->
-<!-- <button type="button" class="btn btn-secondary" (click)="changeRunningAlgorith(null)">Reset Colors</button> -->

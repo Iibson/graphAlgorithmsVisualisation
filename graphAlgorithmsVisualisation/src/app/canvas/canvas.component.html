@@ -1,6 +1,7 @@
 <div class="outerContainer">
     <div class="innerContainer">
-        <ngx-graph class="chart-container" [showMiniMap]="false" [links]="edges" [nodes]="nodes">
+
+        <ngx-graph class="chart-container" [showMiniMap]="false" [links]="edges" [nodes]="nodes" [panOffsetX]="-1000">
 
             <ng-template #defsTemplate>
                 <svg:marker id="arrow" viewBox="0 -5 10 10" refX="8" refY="0" markerWidth="4" markerHeight="4" orient="auto" stroke="#343a40" fill="#343a40">
@@ -28,6 +29,7 @@
             </ng-template>
 
         </ngx-graph>
+
     </div>
 </div>
 <!-- <app-legend></app-legend> -->

@@ -46,6 +46,7 @@ export class Algorithms {
             node.data.parent = null
             node.data.customColor = this.properties.defaultColor
         })
+        startingNode.data.customColor = this.properties.visitingColor
         let time = 0
         await this.visitDFS(startingNode, nodes, edges, time)
         for (let i = 0; i < nodes.length; i++) {
