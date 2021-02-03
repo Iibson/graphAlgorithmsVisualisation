@@ -1,9 +1,10 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Node, Edge } from '@swimlane/ngx-graph';
 import { GraphFormService } from '../service/graph-form/graph-form.service';
 import { Algorithms } from '../data/algorithms'
 import { CurrentAlgorithmService, RunningAlgorithm } from '../service/current-algorithm/current-algorithm.service';
 import * as pregeneratedGraph from '../data/graph';
+import { MatMenuTrigger } from '@angular/material/menu';
 
 @Component({
   selector: 'app-canvas',
@@ -33,15 +34,6 @@ export class CanvasComponent {
     this.edges = []
   }
 
-  @HostListener('document:keypress', ['$event'])
-  handleKeyboardEvent(event: KeyboardEvent) {
-    if (event.key === 'd')
-      if (this.choosenElement != null) {
-        this.deleteNode(this.choosenElement)
-        this.choosenElement = null
-      }
-  }
-
   addNode(node: Node) {
     this.nodes.push(node)
     this.nodes = [...this.nodes]
@@ -52,36 +44,35 @@ export class CanvasComponent {
     this.edges = this.edges.filter(res => res.source != node.id && res.target != node.id)
   }
 
-  addEdge(source: string, target: string) {
+  manageEdge(target: string) {
+    let temp = this.edges.find(res => res.target == target && res.source == this.choosenElement.id)
+    if (temp != null) {
+      this.edges = this.edges.filter(element => element != temp)
+      return
+    }
     this.edges.push({
-      source: source,
+      source: this.choosenElement.id,
       target: target
     })
     this.edges = [...this.edges]
   }
 
-  deleteEdge(edge: Edge) {
-    this.edges = this.edges.filter(element => element != edge)
+  chooseNode(element: Node) {
+    this.dropNode()
+    this.choosenElement = element
+    this.choosenElement.data.customColor = this.properties.choosenColor
   }
 
-  chooseNode(element: Node) {
-    if (this.choosenElement == null) {
-      this.choosenElement = element
-      this.choosenElement.data.customColor = this.properties.choosenColor
-    }
-    else {
-      let edge = this.edges.find(res => res.source == this.choosenElement.id && res.target == element.id)
-      if (edge == null)
-        this.addEdge(this.choosenElement.id, element.id)
-      else
-        this.deleteEdge(edge)
-      this.choosenElement.data.customColor = this.properties.defaultColor
-      this.choosenElement = null
-    }
+  dropNode() {
+    if (this.choosenElement == null)
+      return
+    this.choosenElement.data.customColor = this.properties.defaultColor
+    this.choosenElement = null
   }
 
   resetColors() {
     this.nodes.forEach(node => node.data.customColor = this.properties.defaultColor)
+    this.choosenElement = null
   }
 
   generateGraph(graph: pregeneratedGraph.PregeneratedGraph) {
@@ -113,5 +104,21 @@ export class CanvasComponent {
       }
     }
     this.choosenElement = null
+  }
+
+  //CONTEXT MENU HERE
+
+  @ViewChild(MatMenuTrigger)
+  contextMenu: MatMenuTrigger;
+
+  contextMenuPosition = { x: '0px', y: '0px' };
+
+  onContextMenu(event: MouseEvent, item: Node) {
+    event.preventDefault();
+    this.contextMenuPosition.x = event.clientX + 'px';
+    this.contextMenuPosition.y = event.clientY + 'px';
+    this.contextMenu.menuData = { 'item': item };
+    this.contextMenu.menu.focusFirstItem('mouse');
+    this.contextMenu.openMenu();
   }
 }

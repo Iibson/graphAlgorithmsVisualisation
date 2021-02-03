@@ -22,5 +22,4 @@ export class GraphFormService {
   changePregeneratedGraph(graph: PregeneratedGraph) {
     this.pregeneratedGraphSource.next(graph)
   }
-
 }

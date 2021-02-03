@@ -17,6 +17,7 @@ export class GraphFormComponent implements OnInit {
     node_stroke_width: 2
   }
   lastAdded: number = 0
+  miniMapShown: boolean = false
 
   constructor(private graphFormService: GraphFormService, private currentAlgorithmService: CurrentAlgorithmService) { }
 
