@@ -11,6 +11,7 @@ ngx-graph {
     margin-right: auto;
     margin-left: auto;
     height: 700px;
+    background-color: rgb(150, 146, 146);
 }
 
 .outerContainer {

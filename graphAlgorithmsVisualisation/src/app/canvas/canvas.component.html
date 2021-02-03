@@ -33,8 +33,8 @@
     </div>
 </div>
 
-<div style="visibility: hidden; position: fixed;" [style.left]="contextMenuPosition.x" [style.top]="contextMenuPosition.y" [matMenuTriggerFor]="contextMenu"></div>
-<mat-menu #contextMenu="matMenu">
+<div style="visibility: hidden; position: fixed;" [style.left]="contextMenuPosition.x" [style.top]="contextMenuPosition.y" [matMenuTriggerFor]="contextMenuNode"></div>
+<mat-menu #contextMenuNode="matMenu">
     <ng-template matMenuContent let-item="item">
         <button mat-menu-item (click)="chooseNode(item)" [style.display]="choosenElement != item ? 'block': 'none'">Choose Node</button>
         <button mat-menu-item (click)="dropNode()" [style.display]="choosenElement == item ? 'block': 'none'">Drop Node</button>

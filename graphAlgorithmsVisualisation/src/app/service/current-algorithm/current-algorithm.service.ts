@@ -4,7 +4,9 @@ import { BehaviorSubject } from 'rxjs';
 export enum RunningAlgorithm {
   BFS,
   DFS, 
-  SCC
+  SCC,
+  BRIDGES,
+  ARTICULATIONPOINTS
 }
 
 @Injectable({

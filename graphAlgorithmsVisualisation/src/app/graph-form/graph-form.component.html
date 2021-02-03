@@ -26,6 +26,7 @@
             Pregenerated Graphs
           </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" role="button" (click)="generateGraph(3)">Random Graph</a>
                     <a class="dropdown-item" role="button" (click)="generateGraph(0)">Directed Acyclic Graph Example </a>
                     <a class="dropdown-item" role="button" (click)="generateGraph(1)">Binary Tree Example </a>
                     <a class="dropdown-item" role="button" (click)="generateGraph(2)">Strongly Connected Component Graph Example </a>
@@ -61,7 +62,9 @@
                     <div class="dropdown-menu">
                         <a class="dropdown-item" role="button" (click)="changeRunningAlgorith(0)">Run BFS</a>
                         <a class="dropdown-item" role="button" (click)="changeRunningAlgorith(1)">Run DFS </a>
-                        <a class="dropdown-item" role="button" (click)="changeRunningAlgorith(2)">Find Strongly Connected components </a>
+                        <a class="dropdown-item" role="button" (click)="changeRunningAlgorith(2)">Find Strongly Connected Components </a>
+                        <a class="dropdown-item" role="button" (click)="changeRunningAlgorith(3)">Find Bridges //TODO</a>
+                        <a class="dropdown-item" role="button" (click)="changeRunningAlgorith(4)">Find Articulation Points //TODO</a>
                     </div>
                 </div>
             </li>

@@ -92,6 +92,14 @@ export class Algorithms {
         })
         nodes.sort((a, b) => Number(a.id) - Number(b.id))
     }
+
+    async findBridges () { //TODO
+
+    }
+
+    async findArticualtionPoints() { //TODO
+
+    }
 }
 
 class AlgoSupport {

@@ -18,6 +18,7 @@ export class CanvasComponent {
   nodes: Node[] = []
   algo: Algorithms = new Algorithms()
   choosenElement: Node = null
+  beforeChoosenColor: string = null
   properties = {
     defaultColor: '#ffffff',
     choosenColor: 'red',
@@ -60,6 +61,7 @@ export class CanvasComponent {
 
   chooseNode(element: Node) {
     this.dropNode()
+    this.beforeChoosenColor = element.data.customColor
     this.choosenElement = element
     this.choosenElement.data.customColor = this.properties.choosenColor
   }
@@ -67,7 +69,7 @@ export class CanvasComponent {
   dropNode() {
     if (this.choosenElement == null)
       return
-    this.choosenElement.data.customColor = this.properties.defaultColor
+    this.choosenElement.data.customColor = this.beforeChoosenColor
     this.choosenElement = null
   }
 
@@ -85,7 +87,7 @@ export class CanvasComponent {
   //CONTEXT MENU HERE
 
   @ViewChild(MatMenuTrigger)
-  contextMenu: MatMenuTrigger;
+  contextMenuNode: MatMenuTrigger;
 
   contextMenuPosition = { x: '0px', y: '0px' };
 
@@ -93,10 +95,12 @@ export class CanvasComponent {
     event.preventDefault();
     this.contextMenuPosition.x = event.clientX + 'px';
     this.contextMenuPosition.y = event.clientY + 'px';
-    this.contextMenu.menuData = { 'item': node };
-    this.contextMenu.menu.focusFirstItem('mouse');
-    this.contextMenu.openMenu();
+    this.contextMenuNode.menuData = { 'item': node };
+    this.contextMenuNode.menu.focusFirstItem('mouse');
+    this.contextMenuNode.openMenu();
   }
+
+  //ALGORITHMS
 
   generateGraph(graph: pregeneratedGraph.PregeneratedGraph) {
     let temp: pregeneratedGraph.Graph = pregeneratedGraph.PregeneratedGraph.generateGraph(graph)

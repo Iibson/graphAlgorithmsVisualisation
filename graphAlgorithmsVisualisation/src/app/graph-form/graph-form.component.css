@@ -1,4 +1,9 @@
 .btn-secondary {
+    background-color: rgb(150, 146, 146);
+    border-color: rgb(150, 146, 146);
+}
+
+.btn-secondary:hover {
     background-color: gray;
     border-color: gray;
 }
