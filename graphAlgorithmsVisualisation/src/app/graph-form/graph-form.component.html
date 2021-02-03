@@ -16,7 +16,7 @@
                 <a class="nav-link" role="button" (click)="addNode()">Add Node</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" (click)="changeRunningAlgorith(null)" role="button">Reset Colors</a>
+                <a class="nav-link" (click)="changeRunningAlgorith(null)" role="button">Reset Graph</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" (click)="generateGraph(null)" role="button">Delete Graph</a>
@@ -28,7 +28,7 @@
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" role="button" (click)="generateGraph(0)">Directed Acyclic Graph Example </a>
                     <a class="dropdown-item" role="button" (click)="generateGraph(1)">Binary Tree Example </a>
-                    <a class="dropdown-item" role="button" (click)="generateGraph(2)">Strongly connected component Example </a>
+                    <a class="dropdown-item" role="button" (click)="generateGraph(2)">Strongly Connected Component Graph Example </a>
                 </div>
             </li>
             <li class="nav-item dropdown">
@@ -59,8 +59,9 @@
                     Run Algorithms
                     </button>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" role="button" (click)="changeRunningAlgorith(0)">BFS</a>
-                        <a class="dropdown-item" role="button" (click)="changeRunningAlgorith(1)">DFS </a>
+                        <a class="dropdown-item" role="button" (click)="changeRunningAlgorith(0)">Run BFS</a>
+                        <a class="dropdown-item" role="button" (click)="changeRunningAlgorith(1)">Run DFS </a>
+                        <a class="dropdown-item" role="button" (click)="changeRunningAlgorith(2)">Find Strongly Connected components </a>
                     </div>
                 </div>
             </li>

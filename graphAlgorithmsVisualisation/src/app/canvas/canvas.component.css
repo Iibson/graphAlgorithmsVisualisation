@@ -47,3 +47,7 @@ ngx-graph {
         width: 1176px;
     }
 }
+
+.mat-menu-panel {
+    background-color: #343a40!important;
+}

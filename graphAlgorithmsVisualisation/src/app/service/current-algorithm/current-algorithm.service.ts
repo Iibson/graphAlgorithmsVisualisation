@@ -3,7 +3,8 @@ import { BehaviorSubject } from 'rxjs';
 
 export enum RunningAlgorithm {
   BFS,
-  DFS
+  DFS, 
+  SCC
 }
 
 @Injectable({

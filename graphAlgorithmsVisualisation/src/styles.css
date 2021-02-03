@@ -8,7 +8,7 @@ body {
 body {
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
-    background-color: rgba(112, 109, 109, 0.822);
+    background-color: gray;
 }
 
 @import "~bootstrap/dist/css/bootstrap.css"

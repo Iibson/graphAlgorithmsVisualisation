@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Node, Edge } from '@swimlane/ngx-graph';
 import { GraphFormService } from '../service/graph-form/graph-form.service';
 import { Algorithms } from '../data/algorithms'
@@ -9,7 +9,8 @@ import { MatMenuTrigger } from '@angular/material/menu';
 @Component({
   selector: 'app-canvas',
   templateUrl: './canvas.component.html',
-  styleUrls: ['./canvas.component.css']
+  styleUrls: ['./canvas.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class CanvasComponent {
 
@@ -70,9 +71,31 @@ export class CanvasComponent {
     this.choosenElement = null
   }
 
-  resetColors() {
-    this.nodes.forEach(node => node.data.customColor = this.properties.defaultColor)
+  resetGraph() {
+    this.nodes.forEach(node =>
+      node.data = {
+        customColor: this.properties.defaultColor,
+        stroke: this.properties.stroke,
+        stroke_width: this.properties.node_stroke_width
+      }
+    )
     this.choosenElement = null
+  }
+
+  //CONTEXT MENU HERE
+
+  @ViewChild(MatMenuTrigger)
+  contextMenu: MatMenuTrigger;
+
+  contextMenuPosition = { x: '0px', y: '0px' };
+
+  onContextMenu(event: MouseEvent, node: Node) {
+    event.preventDefault();
+    this.contextMenuPosition.x = event.clientX + 'px';
+    this.contextMenuPosition.y = event.clientY + 'px';
+    this.contextMenu.menuData = { 'item': node };
+    this.contextMenu.menu.focusFirstItem('mouse');
+    this.contextMenu.openMenu();
   }
 
   generateGraph(graph: pregeneratedGraph.PregeneratedGraph) {
@@ -87,18 +110,22 @@ export class CanvasComponent {
       })
   }
 
-  runAlgorithm(algorithm: RunningAlgorithm) {
+  async runAlgorithm(algorithm: RunningAlgorithm) {
     switch (algorithm) {
       case RunningAlgorithm.BFS: {
-        this.algo.BFS(this.nodes, this.edges, this.choosenElement)
+        await this.algo.BFS(this.nodes, this.edges, this.choosenElement)
         break
       }
       case RunningAlgorithm.DFS: {
-        this.algo.DFS(this.nodes, this.edges, this.choosenElement)
+        await this.algo.DFS(this.nodes, this.edges, this.choosenElement)
+        break
+      }
+      case RunningAlgorithm.SCC: {
+        await this.algo.findStronglyConnectedComponents(this.nodes, this.edges, this.choosenElement)
         break
       }
       default: {
-        this.resetColors()
+        this.resetGraph()
         this.nodes = this.nodes
         this.edges = this.edges
       }
@@ -106,19 +133,4 @@ export class CanvasComponent {
     this.choosenElement = null
   }
 
-  //CONTEXT MENU HERE
-
-  @ViewChild(MatMenuTrigger)
-  contextMenu: MatMenuTrigger;
-
-  contextMenuPosition = { x: '0px', y: '0px' };
-
-  onContextMenu(event: MouseEvent, item: Node) {
-    event.preventDefault();
-    this.contextMenuPosition.x = event.clientX + 'px';
-    this.contextMenuPosition.y = event.clientY + 'px';
-    this.contextMenu.menuData = { 'item': item };
-    this.contextMenu.menu.focusFirstItem('mouse');
-    this.contextMenu.openMenu();
-  }
 }
