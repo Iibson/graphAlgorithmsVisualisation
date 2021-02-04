@@ -39,7 +39,8 @@ export class GraphFormComponent implements OnInit {
       data: {
         customColor: this.properties.defaultColor,
         stroke: this.properties.stroke,
-        stroke_width: this.properties.node_stroke_width
+        stroke_width: this.properties.node_stroke_width,
+        isNode: true
       }
     } as Node)
     this.lastAdded++

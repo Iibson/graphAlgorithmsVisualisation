@@ -10,7 +10,7 @@
             </ng-template>
 
             <ng-template #nodeTemplate let-node>
-                <svg:g class=" node " (click)="chooseNode(node)" (contextmenu)="onContextMenu($event, node)" (dblclick)="manageEdge(node.id)">
+                <svg:g class=" node " (click)="chooseElement(node)" (contextmenu)="onContextMenu($event, node)">
                     <svg:rect [attr.width]="node.dimension.width " [attr.height]="node.dimension.height " [attr.fill]="node.data.customColor " [attr.stroke]="node.data.stroke " [attr.stroke-width]="node.data.stroke_width " />
                     <svg:text alignment-baseline="central " [attr.x]="10 " [attr.y]="node.dimension.height / 2 ">
                         {{node.id}}
@@ -19,10 +19,11 @@
             </ng-template>
 
             <ng-template #linkTemplate let-link>
-                <svg:g class=" edge ">
-                    <svg:path class="line " stroke-width="4 " marker-end="url(#arrow) " stroke="#343a40 "></svg:path>
+                <svg:g class=" edge " (contextmenu)="onContextMenu($event, link)">
+                    <svg:path class="line " stroke-width="4 " marker-end="url(#arrow) " [attr.stroke]="link.data.customColor"></svg:path>
                     <svg:text class="edge-label " text-anchor="middle ">
                         <textPath class="text-path " [attr.href]=" '#' + link.id " [style.dominant-baseline]="link.dominantBaseline " startOffset="50% ">
+                            {{link.data.length}}
                         </textPath>
                     </svg:text>
                 </svg:g>
@@ -33,12 +34,18 @@
     </div>
 </div>
 
-<div style="visibility: hidden; position: fixed;" [style.left]="contextMenuPosition.x" [style.top]="contextMenuPosition.y" [matMenuTriggerFor]="contextMenuNode"></div>
-<mat-menu #contextMenuNode="matMenu">
+<div style="visibility: hidden; position: fixed;" [style.left]="contextMenuPosition.x" [style.top]="contextMenuPosition.y" [matMenuTriggerFor]="contextMenu"></div>
+<mat-menu #contextMenu="matMenu">
     <ng-template matMenuContent let-item="item">
-        <button mat-menu-item (click)="chooseNode(item)" [style.display]="choosenElement != item ? 'block': 'none'">Choose Node</button>
-        <button mat-menu-item (click)="dropNode()" [style.display]="choosenElement == item ? 'block': 'none'">Drop Node</button>
-        <button mat-menu-item (click)="manageEdge(item.id)" [style.display]="choosenElement != null ? 'block': 'none'">Create Edge / Destroy Edge</button>
-        <button mat-menu-item (click)="deleteNode(item)">Delete Node</button>
+        <div [style.display]="item.data.isNode ? 'block': 'none'">
+            <button mat-menu-item (click)="chooseElement(item)" [style.display]="choosenElement != item ? 'block': 'none'">Choose Node</button>
+            <button mat-menu-item (click)="dropElement()" [style.display]="choosenElement == item ? 'block': 'none'">Drop Node</button>
+            <button mat-menu-item (click)="manageEdge(item.id)" [style.display]="choosenElement != null ? 'block': 'none'">Create Edge / Delete Edge</button>
+            <button mat-menu-item (click)="deleteNode(item)">Delete Node</button>
+        </div>
+        <div [style.display]="item.data.isNode ? 'none': 'block'">
+            <button mat-menu-item (click)="deleteEdge(item)">Delete Edge</button>
+            <button mat-menu-item (click)="setEdgeLength(item, 10)">Set Length</button>
+        </div>
     </ng-template>
 </mat-menu>

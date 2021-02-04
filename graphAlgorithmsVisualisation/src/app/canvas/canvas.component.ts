@@ -49,28 +49,40 @@ export class CanvasComponent {
   manageEdge(target: string) {
     let temp = this.edges.find(res => res.target == target && res.source == this.choosenElement.id)
     if (temp != null) {
-      this.edges = this.edges.filter(element => element != temp)
+      this.deleteEdge(temp)
       return
     }
     this.edges.push({
       source: this.choosenElement.id,
-      target: target
+      target: target,
+      data: {
+        customColor: '#343a40',
+        isNode: false
+      }
     })
     this.edges = [...this.edges]
   }
 
-  chooseNode(element: Node) {
-    this.dropNode()
+  deleteEdge(edge: Edge) {
+    this.edges = this.edges.filter(element => element.id != edge.id)
+  }
+
+  chooseElement(element: any) {
+    this.dropElement()
     this.beforeChoosenColor = element.data.customColor
     this.choosenElement = element
     this.choosenElement.data.customColor = this.properties.choosenColor
   }
 
-  dropNode() {
+  dropElement() {
     if (this.choosenElement == null)
       return
     this.choosenElement.data.customColor = this.beforeChoosenColor
     this.choosenElement = null
+  }
+
+  setEdgeLength(edge: Edge, length: number) {
+    edge.data.length = length
   }
 
   resetGraph() {
@@ -84,23 +96,23 @@ export class CanvasComponent {
     this.choosenElement = null
   }
 
-  //CONTEXT MENU HERE
+  //CONTEXT MENU
 
   @ViewChild(MatMenuTrigger)
-  contextMenuNode: MatMenuTrigger;
+  contextMenu: MatMenuTrigger;
 
   contextMenuPosition = { x: '0px', y: '0px' };
 
-  onContextMenu(event: MouseEvent, node: Node) {
+  onContextMenu(event: MouseEvent, element: any) {
     event.preventDefault();
     this.contextMenuPosition.x = event.clientX + 'px';
     this.contextMenuPosition.y = event.clientY + 'px';
-    this.contextMenuNode.menuData = { 'item': node };
-    this.contextMenuNode.menu.focusFirstItem('mouse');
-    this.contextMenuNode.openMenu();
+    this.contextMenu.menuData = { 'item': element };
+    this.contextMenu.menu.focusFirstItem('mouse');
+    this.contextMenu.openMenu();
   }
 
-  //ALGORITHMS
+  //GRAPHS
 
   generateGraph(graph: pregeneratedGraph.PregeneratedGraph) {
     let temp: pregeneratedGraph.Graph = pregeneratedGraph.PregeneratedGraph.generateGraph(graph)
@@ -114,6 +126,8 @@ export class CanvasComponent {
       })
   }
 
+  //ALGORITHMS
+  
   async runAlgorithm(algorithm: RunningAlgorithm) {
     switch (algorithm) {
       case RunningAlgorithm.BFS: {
