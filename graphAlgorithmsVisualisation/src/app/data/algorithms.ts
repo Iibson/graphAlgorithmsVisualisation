@@ -127,12 +127,12 @@ export class Algorithms {
         while (!queue.isEmpty()) {
             let node: Node = queue.pop()
             if (node.data.visited) {
-                if (node.data.parent != null)
-                    edges.find(res => res.source == node.data.parent && res.target == node.id).data.customColor = AlgoSupport.properties.visitedColor
                 node.data.customColor = AlgoSupport.properties.visitedColor
                 continue
             }
             node.data.visited = true
+            if (node.data.parent != null)
+                edges.find(res => res.source == node.data.parent && res.target == node.id).data.customColor = AlgoSupport.properties.visitedColor
             node.data.customColor = AlgoSupport.properties.visitingColor
             for (let i = 0; i < edges.length; i++) {
                 let targetNode = nodes.find(node => node.id == edges[i].target)
@@ -146,7 +146,6 @@ export class Algorithms {
                         targetNode.data.customColor = AlgoSupport.properties.toVisitColor
                         await AlgoSupport.delay()
                     }
-                    // edges[i].data.customColor = AlgoSupport.properties.toVisitColor
                 }
             }
             if (node.data.parent != null)
@@ -154,7 +153,49 @@ export class Algorithms {
             node.data.customColor = AlgoSupport.properties.visitedColor
             await AlgoSupport.delay()
         }
-        // console.log(nodes, queue)
+    }
+
+    async prim(nodes: Node[], edges: Edge[]) {
+        let startingNode = nodes[0]
+        let queue = priorityQueue<Node>()
+        nodes.forEach(node => {
+            node.data.path = Number.MAX_SAFE_INTEGER
+            node.data.visited = false
+            node.data.customColor = AlgoSupport.properties.defaultColor
+            node.data.parent = null
+        })
+        edges.forEach(edge => edge.data.customColor = '#343a40')
+        startingNode.data.path = 0
+        queue.insert(startingNode, startingNode.data.path)
+        while (!queue.isEmpty()) {
+            let node: Node = queue.pop()
+            if (node.data.visited) {
+                node.data.customColor = AlgoSupport.properties.visitedColor
+                continue
+            }
+            node.data.visited = true
+            if (node.data.parent != null)
+                edges.find(res => res.source == node.data.parent && res.target == node.id).data.customColor = AlgoSupport.properties.visitedColor
+            node.data.customColor = AlgoSupport.properties.visitingColor
+            for (let i = 0; i < edges.length; i++) {
+                let targetNode = nodes.find(node => node.id == edges[i].target)
+                if (edges[i].source == node.id && targetNode.data.visited == false) {
+                    if (targetNode.data.path > node.data.path) {
+                        targetNode.data.parent = node.id
+                        targetNode.data.path = node.data.path
+                        queue.insert(targetNode, targetNode.data.path)
+                        if (targetNode.data.parent != null)
+                            edges.find(res => res.source == targetNode.data.parent && res.target == targetNode.id).data.customColor = AlgoSupport.properties.toVisitColor
+                        targetNode.data.customColor = AlgoSupport.properties.toVisitColor
+                        await AlgoSupport.delay()
+                    }
+                }
+            }
+            if (node.data.parent != null)
+                edges.find(res => res.source == node.data.parent && res.target == node.id).data.customColor = AlgoSupport.properties.visitedColor
+            node.data.customColor = AlgoSupport.properties.visitedColor
+            await AlgoSupport.delay()
+        }
     }
 }
 

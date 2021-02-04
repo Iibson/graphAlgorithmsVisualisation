@@ -129,7 +129,7 @@ export class CanvasComponent {
       })
     this.edges.forEach(edge => {
       let temp = null
-      if (graph == pregeneratedGraph.PregeneratedGraph.RandomGraph)
+      if (graph == pregeneratedGraph.PregeneratedGraph.RandomDirectedGraph)
         temp = edge.data.length
       edge.data = {}
       edge.data.customColor = '#343a40'
@@ -158,6 +158,12 @@ export class CanvasComponent {
         if (!this.checkForEdgesLengths())
           break
         await this.algo.dijkstra(this.nodes, this.edges, this.choosenElement)
+        break
+      }
+      case RunningAlgorithm.PRIM: {
+        if (!this.checkForEdgesLengths())
+          break
+        await this.algo.prim(this.nodes, this.edges)
         break
       }
       default: {

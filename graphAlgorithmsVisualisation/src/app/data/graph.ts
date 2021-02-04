@@ -9,7 +9,7 @@ export enum PregeneratedGraph {
     Dag,
     BinTree,
     StronglyConnectedComponent,
-    RandomGraph
+    RandomDirectedGraph
 }
 
 export namespace PregeneratedGraph {
@@ -102,7 +102,7 @@ export namespace PregeneratedGraph {
                         { source: '8', target: '5' }
                     ]
                 }
-            case PregeneratedGraph.RandomGraph: {
+            case PregeneratedGraph.RandomDirectedGraph: {
                 let nodes: Node[] = []
                 let edges: Edge[] = []
                 for (let i = 0; i < temp; i++)
@@ -145,7 +145,7 @@ export namespace PregeneratedGraph {
                 return 15
             case PregeneratedGraph.StronglyConnectedComponent:
                 return 9
-            case PregeneratedGraph.RandomGraph:
+            case PregeneratedGraph.RandomDirectedGraph:
                 return temp
             default:
                 return 0

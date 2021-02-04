@@ -7,7 +7,8 @@ export enum RunningAlgorithm {
   SCC,
   BRIDGES,
   ARTICULATIONPOINTS,
-  DIJKSTRA 
+  DIJKSTRA, 
+  PRIM 
 }
 
 @Injectable({
