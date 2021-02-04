@@ -33,6 +33,7 @@
     "popper.js": "^1.16.1",
     "queue-typescript": "^1.0.1",
     "rxjs": "~6.6.0",
+    "ts-priority-queue": "^0.1.1",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"
   },

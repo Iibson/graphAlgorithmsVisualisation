@@ -57,7 +57,7 @@ export class CanvasComponent {
       target: target,
       data: {
         customColor: '#343a40',
-        isNode: false
+        isNode: false,
       }
     })
     this.edges = [...this.edges]
@@ -81,8 +81,8 @@ export class CanvasComponent {
     this.choosenElement = null
   }
 
-  setEdgeLength(edge: Edge, length: number) {
-    edge.data.length = length
+  setEdgeLength(edge: Edge) {
+    edge.data.length = Number(prompt())
   }
 
   resetGraph() {
@@ -90,9 +90,11 @@ export class CanvasComponent {
       node.data = {
         customColor: this.properties.defaultColor,
         stroke: this.properties.stroke,
-        stroke_width: this.properties.node_stroke_width
+        stroke_width: this.properties.node_stroke_width,
+        isNode: true
       }
     )
+    this.edges.forEach(edge => edge.data.customColor = '#343a40')
     this.choosenElement = null
   }
 
@@ -122,12 +124,22 @@ export class CanvasComponent {
       node.data = {
         customColor: this.properties.defaultColor,
         stroke: this.properties.stroke,
-        stroke_width: this.properties.node_stroke_width
+        stroke_width: this.properties.node_stroke_width,
+        isNode: true
       })
+    this.edges.forEach(edge => {
+      let temp = null
+      if (graph == pregeneratedGraph.PregeneratedGraph.RandomGraph)
+        temp = edge.data.length
+      edge.data = {}
+      edge.data.customColor = '#343a40'
+      edge.data.length = temp
+      edge.data.isNode = false
+    })
   }
 
   //ALGORITHMS
-  
+
   async runAlgorithm(algorithm: RunningAlgorithm) {
     switch (algorithm) {
       case RunningAlgorithm.BFS: {
@@ -142,6 +154,12 @@ export class CanvasComponent {
         await this.algo.findStronglyConnectedComponents(this.nodes, this.edges, this.choosenElement)
         break
       }
+      case RunningAlgorithm.DIJKSTRA: {
+        if (!this.checkForEdgesLengths())
+          break
+        await this.algo.dijkstra(this.nodes, this.edges, this.choosenElement)
+        break
+      }
       default: {
         this.resetGraph()
         this.nodes = this.nodes
@@ -149,6 +167,10 @@ export class CanvasComponent {
       }
     }
     this.choosenElement = null
+  }
+
+  checkForEdgesLengths() {
+    return this.edges.find(res => res.data.length == null) == null
   }
 
 }

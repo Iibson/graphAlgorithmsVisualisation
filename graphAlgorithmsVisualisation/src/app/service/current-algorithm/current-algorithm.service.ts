@@ -6,7 +6,8 @@ export enum RunningAlgorithm {
   DFS, 
   SCC,
   BRIDGES,
-  ARTICULATIONPOINTS
+  ARTICULATIONPOINTS,
+  DIJKSTRA 
 }
 
 @Injectable({

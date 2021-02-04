@@ -45,7 +45,7 @@
         </div>
         <div [style.display]="item.data.isNode ? 'none': 'block'">
             <button mat-menu-item (click)="deleteEdge(item)">Delete Edge</button>
-            <button mat-menu-item (click)="setEdgeLength(item, 10)">Set Length</button>
+            <button mat-menu-item (click)="setEdgeLength(item)">Set Length</button>
         </div>
     </ng-template>
 </mat-menu>
