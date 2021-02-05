@@ -8,7 +8,8 @@ export enum RunningAlgorithm {
   BRIDGES,
   ARTICULATIONPOINTS,
   DIJKSTRA, 
-  PRIM 
+  PRIM,
+  KRUSKAL 
 }
 
 @Injectable({

@@ -166,6 +166,12 @@ export class CanvasComponent {
         await this.algo.prim(this.nodes, this.edges)
         break
       }
+      case RunningAlgorithm.KRUSKAL: {
+        if (!this.checkForEdgesLengths())
+          break
+        await this.algo.kruskal(this.nodes, this.edges)
+        break
+      }
       default: {
         this.resetGraph()
         this.nodes = this.nodes

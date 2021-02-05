@@ -1,6 +1,7 @@
 import { Edge, Node } from "@swimlane/ngx-graph";
 import { Queue } from "queue-typescript";
 import { priorityQueue } from './priority-queue'
+import { UnionNode } from "./union-node";
 
 export class Algorithms {
 
@@ -195,6 +196,49 @@ export class Algorithms {
                 edges.find(res => res.source == node.data.parent && res.target == node.id).data.customColor = AlgoSupport.properties.visitedColor
             node.data.customColor = AlgoSupport.properties.visitedColor
             await AlgoSupport.delay()
+        }
+    }
+    async kruskal(nodes: Node[], edges: Edge[]) {
+        let queue = priorityQueue<Edge>()
+        nodes.forEach(res => {
+            res.data.union = new UnionNode(AlgoSupport.randomRgba())
+            res.data.visited = false
+        })
+        nodes.sort((a, b) => Number(a.id) - Number(b.id))
+        edges.forEach(res => { 
+            res.data.visited = false
+            queue.insert(res, res.data.length)
+         })
+        edges.sort((a, b) => a.data.length - b.data.length)
+        while (!queue.isEmpty()) {
+            let temp = queue.pop()
+            let x = nodes.find(res => res.id == temp.source)
+            let y = nodes.find(res => res.id == temp.target)
+            temp.data.customColor = AlgoSupport.properties.visitingColor
+            if (!x.data.visited)
+                x.data.customColor = AlgoSupport.properties.visitingColor
+            if (!x.data.visited)
+                y.data.customColor = AlgoSupport.properties.visitingColor
+            x.data.visited = true
+            y.data.visited = true
+            await AlgoSupport.delay()
+            temp.data.customColor = '#343a40'
+            if (UnionNode.findSet(x.data.union) != UnionNode.findSet(y.data.union)) {
+                let union = UnionNode.union(x.data.union, y.data.union)
+                temp.data.customColor = UnionNode.findColor(union)
+                x.data.customColor = UnionNode.findColor(union)
+                y.data.customColor = UnionNode.findColor(union)
+                temp.data.visited = true
+                nodes.forEach(res => {
+                    if (UnionNode.findSet(res.data.union) == union)
+                        res.data.customColor = UnionNode.findColor(union)
+                })
+                edges.forEach(res => {
+                    if (UnionNode.findSet(nodes[Number(res.source)].data.union) == union && UnionNode.findSet(nodes[Number(res.target)].data.union) == union && res.data.visited)
+                        res.data.customColor = UnionNode.findColor(union)
+                })
+                await AlgoSupport.delay()
+            }
         }
     }
 }
