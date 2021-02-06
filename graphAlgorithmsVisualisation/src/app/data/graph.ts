@@ -111,17 +111,17 @@ export namespace PregeneratedGraph {
                     edges.push({
                         source: String(getRandomInt(0, temp - 1)),
                         target: String(getRandomInt(0, temp - 1)),
-                        data: {
-                            length: getRandomInt(5, 20)
-                        }
+                        // data: {
+                        //     length: getRandomInt(0, 40)
+                        // }
                     })
                 nodes.forEach(node => {
                     edges.push({
                         source: node.id,
                         target: String(getRandomInt(0, temp - 1)),
-                        data: {
-                            length: getRandomInt(5, 20)
-                        }
+                        // data: {
+                        //     length: getRandomInt(0, 40)
+                        // }
                     })
                 })
                 edges = [...new Set(edges)]

@@ -12,6 +12,8 @@ export class GraphFormService {
   vertexAdded = this.vertexAddedSource.asObservable();
   private pregeneratedGraphSource = new BehaviorSubject<PregeneratedGraph>(null)
   pregeneratedGraph = this.pregeneratedGraphSource.asObservable()
+  private lengthGeneratedSource = new BehaviorSubject<null>(null)
+  lengthGenerated = this.lengthGeneratedSource.asObservable()
 
   constructor() { }
 
@@ -22,4 +24,10 @@ export class GraphFormService {
   changePregeneratedGraph(graph: PregeneratedGraph) {
     this.pregeneratedGraphSource.next(graph)
   }
+
+  changeLengthGenerated(message: null) {
+    this.lengthGeneratedSource.next(message)
+  }
+
+  
 }

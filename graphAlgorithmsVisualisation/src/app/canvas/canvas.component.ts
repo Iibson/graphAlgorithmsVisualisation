@@ -31,6 +31,7 @@ export class CanvasComponent {
     this.currentAlgorithmService.currentAlgorithmTime.subscribe(res => this.algo.setTime(res))
     this.graphFormService.vertexAdded.subscribe(res => this.addNode(res))
     this.graphFormService.pregeneratedGraph.subscribe(res => this.generateGraph(res))
+    this.graphFormService.lengthGenerated.subscribe(() => this.generteLenghts(0, 40))
     this.algo.setTime(500)
     this.nodes = []
     this.edges = []
@@ -82,7 +83,10 @@ export class CanvasComponent {
   }
 
   setEdgeLength(edge: Edge) {
-    edge.data.length = Number(prompt())
+    let x = prompt()
+    edge.data.length = 0
+    if (Number.isInteger(Number(x)))
+      edge.data.length = x
   }
 
   resetGraph() {
@@ -96,6 +100,13 @@ export class CanvasComponent {
     )
     this.edges.forEach(edge => edge.data.customColor = '#343a40')
     this.choosenElement = null
+  }
+
+  generteLenghts(max: number, min: number) {
+    console.log("aaa")
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    this.edges.forEach(edge => edge.data.length = Math.floor(Math.random() * (max - min)) + min)
   }
 
   //CONTEXT MENU
@@ -128,12 +139,12 @@ export class CanvasComponent {
         isNode: true
       })
     this.edges.forEach(edge => {
-      let temp = null
-      if (graph == pregeneratedGraph.PregeneratedGraph.RandomDirectedGraph)
-        temp = edge.data.length
+      // let temp = null
+      // if (graph == pregeneratedGraph.PregeneratedGraph.RandomDirectedGraph)
+      //   temp = edge.data.length
       edge.data = {}
       edge.data.customColor = '#343a40'
-      edge.data.length = temp
+      // edge.data.length = temp
       edge.data.isNode = false
     })
   }
@@ -169,6 +180,7 @@ export class CanvasComponent {
       case RunningAlgorithm.KRUSKAL: {
         if (!this.checkForEdgesLengths())
           break
+        // this.edges.sort((a, b) => a.data.length - b.data.length)
         await this.algo.kruskal(this.nodes, this.edges)
         break
       }

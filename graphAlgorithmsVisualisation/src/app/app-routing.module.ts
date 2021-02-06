@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { CanvasComponent } from './canvas/canvas.component';
 import { GraphFormComponent } from './graph-form/graph-form.component';
-import { LegendComponent } from './canvas/legend/legend.component';
 
 const routes: Routes = [];
 
@@ -13,6 +12,5 @@ const routes: Routes = [];
 export class AppRoutingModule { }
 export const routingComponents = [
   CanvasComponent,
-  GraphFormComponent,
-  LegendComponent
+  GraphFormComponent
 ]

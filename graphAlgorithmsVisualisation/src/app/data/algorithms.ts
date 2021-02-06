@@ -24,20 +24,22 @@ export class Algorithms {
         while (queue.length > 0) {
             let node = queue.dequeue()
             node.data.customColor = AlgoSupport.properties.visitingColor
+            if (node.data.parent != null)
+                edges.find(res => res.source == node.data.parent && res.target == node.id).data.customColor = AlgoSupport.properties.visitedColor
             for (let i = 0; i < edges.length; i++) {
                 let targetNode = nodes.find(node => node.id == edges[i].target)
                 if (edges[i].source == node.id && targetNode.data.visited == false) {
                     targetNode.data.visited = true
                     targetNode.data.parent = edges[i].source
                     await AlgoSupport.delay()
-                    // edges[i].data.customColor = AlgoSupport.properties.toVisitColor
+                    edges[i].data.customColor = AlgoSupport.properties.toVisitColor
                     targetNode.data.customColor = AlgoSupport.properties.toVisitColor
                     queue.enqueue(targetNode)
                 }
             }
             await AlgoSupport.delay()
-            // if (node.data.parent != null)
-            //     edges.find(res => res.source == node.data.parent && res.target == node.id).data.customColor = AlgoSupport.properties.visitedColor
+            if (node.data.parent != null)
+                edges.find(res => res.source == node.data.parent && res.target == node.id).data.customColor = AlgoSupport.properties.visitedColor
             node.data.customColor = AlgoSupport.properties.visitedColor
         }
     }
@@ -62,8 +64,8 @@ export class Algorithms {
     async visitDFS(node: Node, nodes: Node[], edges: Edge[], time: number[], color: string) {
         await AlgoSupport.delay()
         node.data.customColor = AlgoSupport.properties.visitingColor
-        // if (node.data.parent != null)
-        //     edges.find(res => res.source == node.data.parent && res.target == node.id).data.customColor = AlgoSupport.properties.visitingColor
+        if (node.data.parent != null)
+            edges.find(res => res.source == node.data.parent && res.target == node.id).data.customColor = AlgoSupport.properties.visitingColor
         node.data.entry = time[0]
         time[0]++
         node.data.visited = true
@@ -79,8 +81,8 @@ export class Algorithms {
         }
         node.data.processed = time[0]
         time[0]++
-        // if(node.data.parent != null)
-        //     edges.find(res => res.source == node.data.parent && res.target == node.id).data.customColor = color
+        if (node.data.parent != null)
+            edges.find(res => res.source == node.data.parent && res.target == node.id).data.customColor = color
         node.data.customColor = color
     }
 
@@ -199,17 +201,19 @@ export class Algorithms {
         }
     }
     async kruskal(nodes: Node[], edges: Edge[]) {
+        edges.sort((a, b) => a.data.length - b.data.length)
         let queue = priorityQueue<Edge>()
         nodes.forEach(res => {
             res.data.union = new UnionNode(AlgoSupport.randomRgba())
             res.data.visited = false
+            res.data.customColor = AlgoSupport.properties.defaultColor
         })
         nodes.sort((a, b) => Number(a.id) - Number(b.id))
-        edges.forEach(res => { 
+        edges.forEach(res => {
             res.data.visited = false
+            res.data.customColor = '#343a40'
             queue.insert(res, res.data.length)
-         })
-        edges.sort((a, b) => a.data.length - b.data.length)
+        })
         while (!queue.isEmpty()) {
             let temp = queue.pop()
             let x = nodes.find(res => res.id == temp.source)

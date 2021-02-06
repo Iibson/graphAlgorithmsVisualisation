@@ -22,6 +22,7 @@
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" (click)="changeRunningAlgorith(null)" role="button">Reset Graph </a>
                     <a class="dropdown-item" (click)="generateGraph(null)" role="button">Delete Graph </a>
+                    <a class="dropdown-item" (click)="generateLengths()" role="button">Generate Random Lengths </a>
                 </div>
             </li>
             <!-- <li class="nav-item">
@@ -75,15 +76,29 @@
                         <a class="dropdown-item" role="button" (click)="changeRunningAlgorith(3)">Find Bridges //TODO</a>
                         <a class="dropdown-item" role="button" (click)="changeRunningAlgorith(4)">Find Articulation Points //TODO</a>
                         <a class="dropdown-item" role="button" (click)="changeRunningAlgorith(5)">Run Dijkstra </a>
-                        <a class="dropdown-item" role="button" (click)="changeRunningAlgorith(6)">Run Prim (Graph Must Be Undirected) </a>
+                        <a class="dropdown-item" role="button" (click)="changeRunningAlgorith(null)">Run Bellman-Ford //TODO</a>
+                        <!-- <a class="dropdown-item" role="button" (click)="changeRunningAlgorith(6)">Run Prim (Graph Must Be Undirected) </a> -->
                         <a class="dropdown-item" role="button" (click)="changeRunningAlgorith(7)">Run Kruskal </a>
+                        <a class="dropdown-item" role="button" (click)="changeRunningAlgorith(null)">Run Ford-Fulkerson //TODO</a>
                     </div>
                 </div>
             </li>
-            <!-- <li class="nav-item">
+        </ul>
+        <!-- <ul class="navbar-nav navbar-right">
+            <li class="nav-item dropdown my-2 my-lg-0 dropleft">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Legend
+          </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" id="legendDropdown">
+                        <app-legend></app-legend>
+                    </a>
+                </div>
+            </li> -->
+        <!-- <li class="nav-item">
                 <a class="nav-link disabled" href="#">Disabled</a>
             </li> -->
-        </ul>
+        <!-- </ul> -->
         <!-- <form class="form-inline my-2 my-lg-0">
             <input type="range" max="100" #ref (change)="setTime(ref.value)" />
         </form> -->

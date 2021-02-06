@@ -50,4 +50,8 @@ export class GraphFormComponent implements OnInit {
     this.lastAdded = (graph == null) ? 0 : PregeneratedGraph.numberOfNodes(graph)
     this.graphFormService.changePregeneratedGraph(graph)
   }
+
+  generateLengths() {
+    this.graphFormService.changeLengthGenerated(null)
+  }
 }
