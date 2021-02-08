@@ -54,17 +54,17 @@ export class Algorithms {
         edges.forEach(edge => edge.data.customColor = '#343a40')
         startingNode.data.customColor = AlgoSupport.properties.visitingColor
         let time = [0]
-        await this.visitDFS(startingNode, nodes, edges, time, AlgoSupport.properties.visitedColor)
+        await this.visitDFS(startingNode, nodes, edges, time, AlgoSupport.properties.visitedColor, true)
         for (let i = 0; i < nodes.length; i++) {
             if (!nodes[i].data.visited)
-                await this.visitDFS(nodes[i], nodes, edges, time, AlgoSupport.properties.visitedColor)
+                await this.visitDFS(nodes[i], nodes, edges, time, AlgoSupport.properties.visitedColor, true)
         }
     }
 
-    async visitDFS(node: Node, nodes: Node[], edges: Edge[], time: number[], color: string) {
+    async visitDFS(node: Node, nodes: Node[], edges: Edge[], time: number[], color: string, s: boolean) {
         await AlgoSupport.delay()
         node.data.customColor = AlgoSupport.properties.visitingColor
-        if (node.data.parent != null)
+        if (node.data.parent != null && s)
             edges.find(res => res.source == node.data.parent && res.target == node.id).data.customColor = AlgoSupport.properties.visitingColor
         node.data.entry = time[0]
         time[0]++
@@ -74,14 +74,14 @@ export class Algorithms {
                 let targetNode = nodes.find(res => res.id == edges[i].target)
                 if (!targetNode.data.visited) {
                     targetNode.data.parent = node.id
-                    await this.visitDFS(targetNode, nodes, edges, time, color)
+                    await this.visitDFS(targetNode, nodes, edges, time, color, s)
                     await AlgoSupport.delay()
                 }
             }
         }
         node.data.processed = time[0]
         time[0]++
-        if (node.data.parent != null)
+        if (node.data.parent != null && s)
             edges.find(res => res.source == node.data.parent && res.target == node.id).data.customColor = color
         node.data.customColor = color
     }
@@ -93,11 +93,12 @@ export class Algorithms {
             let temp: string = res.source
             res.source = res.target
             res.target = temp
+            res.data.customColor = '#343a40'
         })
         nodes.forEach(node => node.data.visited = false)
         for (let i = 0; i < nodes.length; i++) {
             if (!nodes[i].data.visited)
-                await this.visitDFS(nodes[i], nodes, edges, [0], AlgoSupport.randomRgba())
+                await this.visitDFS(nodes[i], nodes, edges, [0], AlgoSupport.randomRgba(), false)
         }
         edges.forEach(res => {
             let temp: string = res.source
@@ -107,8 +108,70 @@ export class Algorithms {
         nodes.sort((a, b) => Number(a.id) - Number(b.id))
     }
 
-    async findBridges() { //TODO
+    async findBridges(nodes: Node[], edges: Edge[]) { //TODO
+        nodes.forEach(node => {
+            node.data.visited = false
+            node.data.parent = null
+            node.data.customColor = AlgoSupport.properties.defaultColor
+        })
+        edges.forEach(edge => {
+            edge.data.customColor = '#343a40'
+            edge.data.isBackwards = false
+        })
+        let time = [0]
+        for (let i = 0; i < nodes.length; i++) {
+            if (!nodes[i].data.visited)
+                await this.visitDFSBridges(nodes[i], nodes, edges, time, AlgoSupport.properties.visitedColor)
+        }
+        edges.forEach(res => res.data.customColor = '#343a40')
+        nodes.forEach(res => res.data.customColor = AlgoSupport.properties.defaultColor)
+        nodes.sort((a, b) => Number(a.id) - Number(b.id))
+        for (let i = 0; i < nodes.length; i++) {
+            if (nodes[i].data.low == nodes[i].data.entry && nodes[i].data.parent != null) {
+                await AlgoSupport.delay()
+                edges.find(res => res.target == nodes[i].id && res.source == nodes[i].data.parent).data.customColor = AlgoSupport.properties.visitedColor
+            }
+        }
+    }
 
+    async visitDFSBridges(node: Node, nodes: Node[], edges: Edge[], time: number[], color: string) {
+        await AlgoSupport.delay()
+        node.data.customColor = AlgoSupport.properties.visitingColor
+        if (node.data.parent != null)
+            edges.find(res => res.source == node.data.parent && res.target == node.id).data.customColor = AlgoSupport.properties.visitingColor
+        node.data.entry = time[0]
+        node.data.low = time[0]
+        time[0]++
+        node.data.visited = true
+        for (let i = 0; i < edges.length; i++) {
+            if (edges[i].source == node.id) {
+                let targetNode = nodes.find(res => res.id == edges[i].target)
+                if (!targetNode.data.visited) {
+                    targetNode.data.parent = node.id
+                    await this.visitDFSBridges(targetNode, nodes, edges, time, color)
+                    await AlgoSupport.delay()
+                }
+                else if (node.data.parent != edges[i].target)
+                    edges[i].data.isBackwards = true
+            }
+        }
+        node.data.processed = time[0]
+        time[0]++
+        let temp = node.data.low
+        if (!node.data.parent == null) {
+            for (let i = 0; i < edges.length; i++)
+                if (edges[i].source == node.id) {
+                    let targetNode = nodes.find(res => res.id == edges[i].target)
+                    if (targetNode.data.visited.parent === node.id)
+                        temp = Math.min(temp, targetNode.data.low)
+                    if (edges[i].data.isBackwards)
+                        temp = Math.min(temp, targetNode.data.entry)
+                }
+        }
+        node.data.low = temp
+        if (node.data.parent != null)
+            edges.find(res => res.source == node.data.parent && res.target == node.id).data.customColor = color
+        node.data.customColor = color
     }
 
     async findArticualtionPoints() { //TODO
@@ -200,6 +263,7 @@ export class Algorithms {
             await AlgoSupport.delay()
         }
     }
+
     async kruskal(nodes: Node[], edges: Edge[]) {
         edges.sort((a, b) => a.data.length - b.data.length)
         let queue = priorityQueue<Edge>()
@@ -244,6 +308,50 @@ export class Algorithms {
                 await AlgoSupport.delay()
             }
         }
+    }
+
+    async bellmanFord(nodes: Node[], edges: Edge[], startingNode: Node) {
+        startingNode = (startingNode == null) ? nodes[0] : startingNode
+        nodes.forEach(node => {
+            node.data.parent = null
+            node.data.path = Number.MAX_SAFE_INTEGER
+            node.data.customColor = AlgoSupport.properties.defaultColor
+        })
+        edges.forEach(edge => edge.data.customColor = '#343a40')
+        startingNode.data.path = 0
+        for (let k = 0; k < nodes.length - 1; k++) {
+            for (let i = 0; i < edges.length; i++) {
+                let sourceNode = nodes.find(node => node.id == edges[i].source)
+                let targetNode = nodes.find(node => node.id == edges[i].target)
+                edges[i].data.customColor = AlgoSupport.properties.visitingColor
+                targetNode.data.customColor = AlgoSupport.properties.visitingColor
+                sourceNode.data.customColor = AlgoSupport.properties.visitingColor
+                await AlgoSupport.delay()
+                if (targetNode.data.path > sourceNode.data.path + edges[i].data.length) {
+                    targetNode.data.parent = sourceNode
+                    targetNode.data.path = sourceNode.data.path + edges[i].data.length
+                    await AlgoSupport.delay()
+                    edges[i].data.customColor = AlgoSupport.properties.visitedColor
+                    targetNode.data.customColor = AlgoSupport.properties.visitedColor
+                    sourceNode.data.customColor = AlgoSupport.properties.visitedColor
+                }
+                else {
+                    edges[i].data.customColor = '#343a40'
+                    targetNode.data.customColor = (targetNode.data.customColor === AlgoSupport.properties.visitingColor) ? AlgoSupport.properties.defaultColor : AlgoSupport.properties.visitedColor
+                    sourceNode.data.customColor = (sourceNode.data.customColor === AlgoSupport.properties.visitingColor) ? AlgoSupport.properties.defaultColor : AlgoSupport.properties.visitedColor
+                }
+            }
+        }
+    }
+
+    async fordFulkerson(nodes: Node[], edges: Edge[]) {
+        // console.log(edges)
+        for (let i = 0; i < 3; i++) {
+            await AlgoSupport.delay()
+            edges.push({ source: edges[i].target, target: edges[i].source, data: { length: edges[i].data.length, customColor: '#343a40' } })
+            // console.log(edges[i])
+        }
+        // console.log(edges)
     }
 }
 

@@ -103,7 +103,6 @@ export class CanvasComponent {
   }
 
   generteLenghts(max: number, min: number) {
-    console.log("aaa")
     min = Math.ceil(min);
     max = Math.floor(max);
     this.edges.forEach(edge => edge.data.length = Math.floor(Math.random() * (max - min)) + min)
@@ -165,6 +164,10 @@ export class CanvasComponent {
         await this.algo.findStronglyConnectedComponents(this.nodes, this.edges, this.choosenElement)
         break
       }
+      case RunningAlgorithm.BRIDGES: {
+        await this.algo.findBridges(this.nodes, this.edges)
+        break
+      }
       case RunningAlgorithm.DIJKSTRA: {
         if (!this.checkForEdgesLengths())
           break
@@ -182,6 +185,18 @@ export class CanvasComponent {
           break
         // this.edges.sort((a, b) => a.data.length - b.data.length)
         await this.algo.kruskal(this.nodes, this.edges)
+        break
+      }
+      case RunningAlgorithm.FORDFULKERSON: {
+        if (!this.checkForEdgesLengths())
+          break
+        await this.algo.fordFulkerson(this.nodes, this.edges)
+        break
+      }
+      case RunningAlgorithm.BELLMANFORD: {
+        if (!this.checkForEdgesLengths())
+          break
+        await this.algo.bellmanFord(this.nodes, this.edges, this.choosenElement)
         break
       }
       default: {

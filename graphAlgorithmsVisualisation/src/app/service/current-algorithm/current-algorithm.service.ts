@@ -9,7 +9,9 @@ export enum RunningAlgorithm {
   ARTICULATIONPOINTS,
   DIJKSTRA, 
   PRIM,
-  KRUSKAL 
+  KRUSKAL,
+  BELLMANFORD,
+  FORDFULKERSON
 }
 
 @Injectable({
